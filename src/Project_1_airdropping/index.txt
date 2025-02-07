@@ -1,0 +1,29 @@
+# Install WSL (Windows subsystem for Linux)
+wsl --install
+
+# Download the Solana CLI
+sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
+
+# See the Solana CLI config
+solana config get
+
+# Update the Solana CLI cluster using the following commands
+solana config set --url mainnet-beta
+solana config set --url devnet
+solana config set --url localhost
+solana config set --url testnet
+
+# Create a wallet
+solana-keygen new --force
+solana address
+
+# Get private key
+solana config get
+cat /home/digitalbenjamins/.config/solana/id.json
+
+# Airdrop Solana
+solana airdrop 2
+
+# Check your balance
+solana balance
+
