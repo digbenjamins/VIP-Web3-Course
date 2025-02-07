@@ -4,6 +4,9 @@ wsl --install
 # Download the Solana CLI
 sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
 
+# Solana Version
+solana --version
+
 # See the Solana CLI config
 solana config get
 
