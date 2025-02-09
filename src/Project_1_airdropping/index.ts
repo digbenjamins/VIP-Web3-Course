@@ -15,10 +15,10 @@ const solanaRpc = process.env.HELIUS_HTTPS_URI_DEVNET || "";
 const devConnection = new Connection(solanaRpc, "finalized");
 
 // Create a function to get our Wallet balance
-async function getWalletBalance(): Promise<string> {
+async function getWalletBalance(publicKey: PublicKey): Promise<string> {
   try {
     //Get the wallet balance
-    const walletBalance = await devConnection.getBalance(myPublicKey);
+    const walletBalance = await devConnection.getBalance(publicKey);
 
     // Log out the wallet balance
     return `💰 Balance: ${walletBalance / LAMPORTS_PER_SOL} SOL`;
@@ -32,8 +32,14 @@ async function airDropSolana(solAmount: number): Promise<boolean> {
   try {
     // Create airdrop signature
     console.log(`☔ Requesting ${solAmount} SOL airdrop...`);
-    const airdropSignature = await devConnection.requestAirdrop(myPublicKey, 0.00001 * LAMPORTS_PER_SOL);
+    const airdropSignature = await devConnection.requestAirdrop(myPublicKey, solAmount * LAMPORTS_PER_SOL);
 
+    // Proceed if we got a signature
+    if (!airdropSignature) {
+      console.log("🚫 Could not receive valid signature for airdrop.");
+    }
+
+    // Output the signature
     console.log("☔ Airdrop Transaction Signature:", airdropSignature);
 
     // Get the latest blockheight
@@ -48,20 +54,23 @@ async function airDropSolana(solAmount: number): Promise<boolean> {
 
     return true;
   } catch (error) {
+    console.log("🚫 Could not receive valid signature for airdrop. Reason: " + error);
     return false;
   }
 }
 
 // Run our airdrop
 async function main(): Promise<void> {
-  const myBalance = await getWalletBalance();
+  const myBalance = await getWalletBalance(myPublicKey);
   console.log(myBalance);
 
   // Airdrop 1 SOL
-  await airDropSolana(1);
+  const dropSuccess = await airDropSolana(0.1);
 
-  const myNewBalance = await getWalletBalance();
-  console.log(myNewBalance);
+  if (dropSuccess) {
+    const myNewBalance = await getWalletBalance(myPublicKey);
+    console.log(myNewBalance);
+  }
 }
 
 main();
