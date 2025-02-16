@@ -7,6 +7,11 @@
     "start": "node dist/index.js",
     "project0:wallet": "ts-node src/Project_0_create_wallet/index.ts",
     "project1:airdrop": "ts-node src/Project_1_airdropping/index.ts",
+    "project3:balance": "ts-node src/Project_3_staking_your_sol/index.ts",
+    "project3:validators": "ts-node src/Project_3_staking_your_sol/getValidators.ts",
+    "project3:stake": "ts-node src/Project_3_staking_your_sol/createStake.ts",
+    "project3:unstake": "ts-node src/Project_3_staking_your_sol/removeStake.ts",
+    "project3:withdraw": "ts-node src/Project_3_staking_your_sol/withdrawStake.ts",
     "clean": "rm -rf dist"
   },
   "keywords": [],
@@ -23,6 +28,7 @@
     "typescript-eslint": "^8.16.0"
   },
   "dependencies": {
+    "@anza-xyz/solana-rpc-get-stake-activation": "^1.0.1",
     "@project-serum/anchor": "^0.26.0",
     "@solana/web3.js": "^1.95.5",
     "axios": "^1.7.8",
